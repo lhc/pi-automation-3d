@@ -1,7 +1,11 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, render_template
 from lautomation import service, logger
 
 app = Flask(__name__)
+
+@app.route("/")
+def index():
+    return render_template("index.html")
 
 @app.route("/api/pin/<int:pin>/on", methods=["GET"])
 def turn_on(pin):
@@ -20,4 +24,4 @@ def get_status():
 
 if __name__ == "__main__":
     logger.log_info("Starting Flask application")
-    app.run(host="0.0.0.0", port=5000)
+    app.run(host="0.0.0.0", port=5000, debug=True)
