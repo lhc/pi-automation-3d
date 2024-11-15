@@ -7,12 +7,12 @@ pins = {21: 9, 22: 11, 23: 25, 24: 8}  # Mapeamento dos pinos GPIO para seus nú
 # Configurar os pinos como saída e colocar em estado LOW
 for pin in pins.values():
     GPIO.setup(pin, GPIO.OUT)
-    GPIO.output(pin, GPIO.LOW)
+    GPIO.output(pin, GPIO.HIGH)
 
 # Função para definir o estado do pino
 def set_pin_state(pin, state):
     if pin in pins:
-        GPIO.output(pins[pin], GPIO.HIGH if state else GPIO.LOW)
+        GPIO.output(pins[pin], GPIO.HIGH if state else GPIO.HIGH)
 
 # Função para obter o estado do pino
 def get_pin_state(pin):
