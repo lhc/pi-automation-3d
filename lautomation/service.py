@@ -1,4 +1,4 @@
-#from lautomation import hardware, logger
+from lautomation import hardware, logger
 from datetime import datetime
 import socket
 
