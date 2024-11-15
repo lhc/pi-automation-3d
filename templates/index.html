@@ -42,22 +42,14 @@
         <h1 class="text-center mb-4">GPIO Control Panel</h1>
         <div class="card shadow p-4">
             <div class="row">
+                {% for pin, state in status.items() %}
                 <div class="col-md-6 text-center mb-3">
-                    <label>Pin 21:</label>
-                    <div id="toggle-21" class="toggle-button" onclick="togglePin(21)"></div>
+                    <form action="{{ url_for('toggle_pin', pin=pin.split('_')[1]) }}" method="post">
+                        <label>Pin {{ pin.split('_')[1] }}:</label>
+                        <button type="submit" class="toggle-button {% if state == 'on' %}active{% endif %}"></button>
+                    </form>
                 </div>
-                <div class="col-md-6 text-center mb-3">
-                    <label>Pin 22:</label>
-                    <div id="toggle-22" class="toggle-button" onclick="togglePin(22)"></div>
-                </div>
-                <div class="col-md-6 text-center mb-3">
-                    <label>Pin 23:</label>
-                    <div id="toggle-23" class="toggle-button" onclick="togglePin(23)"></div>
-                </div>
-                <div class="col-md-6 text-center mb-3">
-                    <label>Pin 24:</label>
-                    <div id="toggle-24" class="toggle-button" onclick="togglePin(24)"></div>
-                </div>
+                {% endfor %}
             </div>
         </div>
     </div>
@@ -66,53 +58,5 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.4.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
-    <script>
-        // Carrega o estado inicial dos pinos
-        async function loadStatus() {
-            try {
-                const response = await fetch('/api/status/');
-                const data = await response.json();
-                updateToggleButton('toggle-21', data.relay_21);
-                updateToggleButton('toggle-22', data.relay_22);
-                updateToggleButton('toggle-23', data.relay_23);
-                updateToggleButton('toggle-24', data.relay_24);
-            } catch (error) {
-                console.error('Error fetching status:', error);
-            }
-        }
-
-        // Atualiza o botão de alternância com o estado atual
-        function updateToggleButton(id, status) {
-            const button = document.getElementById(id);
-            if (status === "on") {
-                button.classList.add("active");
-            } else {
-                button.classList.remove("active");
-            }
-        }
-
-        // Função para alternar o estado do pino
-        async function togglePin(pin) {
-            const button = document.getElementById(`toggle-${pin}`);
-            const isOn = button.classList.contains("active");
-
-            // Alterna o estado
-            const url = `/api/pin/${pin}/${isOn ? 'off' : 'on'}`;
-            try {
-                const response = await fetch(url);
-                if (response.ok) {
-                    button.classList.toggle("active");
-                } else {
-                    console.error("Error toggling pin:", response.statusText);
-                }
-            } catch (error) {
-                console.error("Error toggling pin:", error);
-            }
-        }
-
-        // Carrega o estado inicial ao carregar a página
-        window.onload = loadStatus;
-    </script>
 </body>
 </html>

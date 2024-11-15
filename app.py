@@ -3,9 +3,21 @@ from lautomation import service, logger
 
 app = Flask(__name__)
 
+
 @app.route("/")
 def index():
-    return render_template("index.html")
+    # Obtém o status dos pinos e renderiza no template
+    status = service.get_status()
+    return render_template("index.html", status=status)
+
+@app.route("/toggle/<int:pin>", methods=["POST"])
+def toggle_pin(pin):
+    # Alterna o estado do pino e redireciona para a página inicial
+    current_status = service.get_status().get(f"relay_{pin}")
+    new_action = "off" if current_status == "on" else "on"
+    service.control_pin(pin, new_action)
+    return redirect(url_for("index"))
+
 
 @app.route("/api/pin/<int:pin>/on", methods=["GET"])
 def turn_on(pin):
