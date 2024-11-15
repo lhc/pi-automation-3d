@@ -10,11 +10,11 @@ def get_hostname():
 def control_pin(pin, action):
     if pin in hardware.pins:
         if action == "on":
-            hardware.set_pin_state(pin, True)
+            hardware.set_pin_state(pin, False)
             logger.log_info(f"Pin {pin} turned on")
             return {f"relay_{pin}": "on"}
         elif action == "off":
-            hardware.set_pin_state(pin, False)
+            hardware.set_pin_state(pin, True)
             logger.log_info(f"Pin {pin} turned off")
             return {f"relay_{pin}": "off"}
     return {"error": "Invalid pin"}
