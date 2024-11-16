@@ -87,4 +87,3 @@ Para mais informações sobre instalação e configuração, consulte a document
 ---
 
 Este projeto fornece uma interface simples para o controle de dispositivos via rede. Aproveite o sistema para automação e monitoramento de dispositivos conectados ao Raspberry Pi!
-```
